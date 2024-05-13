@@ -6,9 +6,13 @@ import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.model.response.StaffResponseDTO;
+import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.service.BuildingService;
+import com.javaweb.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -30,7 +32,16 @@ public class BuildingServiceImpl implements BuildingService {
     private RentAreaRepository rentAreaRepository;
 
     @Autowired
+    private AssignmentBuildingRepository assignmentBuildingRepository;
+
+    @Autowired
     private BuildingConverter buildingConverter;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private BuildingService buildingService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -66,7 +77,7 @@ public class BuildingServiceImpl implements BuildingService {
         buildingRepository.save(buildingEntity);
         String[] convertString = buildingDTO.getRentArea().split(",");
         if(convertString.length > 0) {
-            rentAreaRepository.deleteByBuildingRentArea_Id(buildingEntity.getId());
+            rentAreaRepository.deleteAllByBuildingRentArea_Id(buildingEntity.getId());
             for(String str : convertString){
                 RentAreaEntity rentAreaEntity = new RentAreaEntity();
                 rentAreaEntity.setValue(Long.parseLong(str.trim()));
@@ -79,10 +90,20 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
-        Long[] idList = ids.toArray(new Long[ids.size()]);
-        for(Long item : idList) {
-            rentAreaRepository.deleteByBuildingRentArea_Id(item);
-        }
-        buildingRepository.deleteByIdIn(idList);
+        rentAreaRepository.deleteByBuildingRentArea_IdIn(ids);
+        assignmentBuildingRepository.deleteByBuildingAssign_IdIn(ids);
+        buildingRepository.deleteByIdIn(ids);
+    }
+
+    @Override
+    public ResponseDTO getStaff(Long id) {
+        Map<Long, String> listStaffs = userService.getStaffs();
+        BuildingEntity buildingEntity = buildingService.findById(id);
+        Map<Long, String> listStaffAssigned = userService.getStaffsAssigned(buildingEntity);
+        List<StaffResponseDTO> staffAssignment = userService.getStaffResponseDTOS(listStaffs, listStaffAssigned);
+        ResponseDTO result = new ResponseDTO();
+        result.setData(staffAssignment);
+        result.setMessage("Success");
+        return result;
     }
 }

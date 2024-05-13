@@ -41,14 +41,7 @@ public class BuildingAPI {
 
     @GetMapping("/{id}/staffs")
     public ResponseDTO loadStaffs(@PathVariable ("id") Long id){
-        Map<Long, String> listStaffs = userService.getStaffs();
-        BuildingEntity buildingEntity = buildingService.findById(id);
-        Map<Long, String> listStaffAssigned = userService.getStaffsAssigned(buildingEntity);
-        List<StaffResponseDTO> staffAssignment = userService.getStaffResponseDTOS(listStaffs, listStaffAssigned);
-        ResponseDTO result = new ResponseDTO();
-        result.setData(staffAssignment);
-        result.setMessage("Success");
-        return result;
+        return buildingService.getStaff(id);
     }
 
     @PutMapping

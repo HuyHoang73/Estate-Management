@@ -1,6 +1,7 @@
 package com.javaweb.converter;
 
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.enums.districtCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public class BuildingConverter {
      */
     public BuildingSearchResponse toBuildingSearchResponse(BuildingEntity item) {
         BuildingSearchResponse building = modelMapper.map(item, BuildingSearchResponse.class);
-        building.setAddress(item.getStreet() + "," + item.getWard() + "," + item.getDistrict());
+        building.setAddress(item.getStreet() + ", " + item.getWard() + ", " + districtCode.getDistrictNameByCode(item.getDistrict()));
         String rentAreas = item.getRentAreaEntities().stream().map(i -> i.getValue().toString()).collect(Collectors.joining(", "));
         building.setRentArea(rentAreas);
         return building;
@@ -52,14 +53,8 @@ public class BuildingConverter {
      */
     public BuildingEntity fromDTOtoEntityWithoutRentArea(BuildingDTO buildingDTO) {
         BuildingEntity buildingEntity =  modelMapper.map(buildingDTO, BuildingEntity.class);
-        StringBuilder typeCode = new StringBuilder();
-        for(String item : buildingDTO.getTypeCode()){
-            if(typeCode.length() > 0){
-                typeCode.append(",");
-            }
-            typeCode.append(item);
-        }
-        buildingEntity.setType(typeCode.toString());
+        String typeCode = buildingDTO.getTypeCode().stream().collect(Collectors.joining(","));
+        buildingEntity.setType(typeCode);
         return buildingEntity;
     }
 }

@@ -27,4 +27,13 @@ public enum districtCode {
         }
         return listDistrict;
     }
+
+    public static String getDistrictNameByCode(String code) {
+        for (districtCode district : districtCode.values()) {
+            if (district.name().equals(code)) {
+                return district.getDistrictName();
+            }
+        }
+        return "";
+    }
 }

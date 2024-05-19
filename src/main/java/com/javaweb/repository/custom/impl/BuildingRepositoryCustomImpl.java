@@ -3,7 +3,10 @@ package com.javaweb.repository.custom.impl;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -57,11 +60,11 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
                     Object value = item.get(request);
                     if (value != null && value != "") {
                         if (item.getType().getName().equals("java.lang.Integer")) {
-                            where.append(" AND b." + fieldName + " = " + value + " ");
+                            where.append(" AND b.").append(fieldName).append(" = ").append(value).append(" ");
                         } else if (item.getType().getName().equals("java.lang.Long")) {
-                            where.append(" AND b." + fieldName + " = " + value + " ");
+                            where.append(" AND b.").append(fieldName).append(" = ").append(value).append(" ");
                         } else if (item.getType().getName().equals("java.lang.String")) {
-                            where.append(" AND b." + fieldName + " like '%" + value + "%' ");
+                            where.append(" AND b.").append(fieldName).append(" like '%").append(value).append("%' ");
                         }
                     }
                 }
@@ -81,44 +84,56 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
         Long minArea = request.getAreaFrom();
         Long maxArea = request.getAreaTo();
         if (maxArea != null) {
-            where.append(" AND r.value <= " + maxArea);
+            where.append(" AND r.value <= ").append(maxArea);
         }
         if (minArea != null) {
-            where.append(" AND r.value >= " + minArea);
+            where.append(" AND r.value >= ").append(minArea);
         }
 
         Long minPrice = request.getRentPriceFrom();
         Long maxPrice = request.getRentPriceTo();
         if (maxPrice != null) {
-            where.append(" AND b.rentprice <= " + maxPrice);
+            where.append(" AND b.rentprice <= ").append(maxPrice);
         }
         if (minPrice != null) {
-            where.append(" AND b.rentprice >= " + minPrice);
+            where.append(" AND b.rentprice >= ").append(minPrice);
         }
 
         Long staffID = request.getStaffId();
         if (staffID != null) {
-            where.append(" AND asm.staffid = " + staffID);
+            where.append(" AND asm.staffid = ").append(staffID);
         }
 
         List<String> typeCode = request.getTypeCode();
         if (typeCode != null && !typeCode.isEmpty()) {
             where.append(" AND ");
             String sqlJoin = typeCode.stream().map(item -> " b.type like '%" + item + "%'").collect(Collectors.joining(" or "));
-            where.append(sqlJoin + " ");
+            where.append(sqlJoin).append(" ");
         }
     }
 
     @Override
-    public List<BuildingEntity> findAll(BuildingSearchRequest request) {
+    public List<BuildingEntity> findAll(BuildingSearchRequest request, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT b.* FROM building b ");
         StringBuilder where = new StringBuilder(" WHERE 1 = 1 ");
         createJoinQuery(request, sql);
         createWhereQueryNormal(request, where);
         createWhereQuerySpecial(request, where);
         sql.append(where);
-        sql.append(" GROUP BY b.id ");
+        sql.append(" GROUP BY b.id ").append(" LIMIT ").append(pageable.getPageSize()).append("\n")
+                .append(" OFFSET ").append(pageable.getOffset());
         Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
         return query.getResultList();
+    }
+
+    @Override
+    public int countTotalItem() {
+        String sql = buildQueryFilter();
+        Query query = entityManager.createNativeQuery(sql);
+        return query.getResultList().size();
+    }
+
+    private String buildQueryFilter() {
+        return "SELECT b.* FROM building b ";
     }
 }

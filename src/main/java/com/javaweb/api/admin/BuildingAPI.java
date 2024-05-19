@@ -24,8 +24,8 @@ public class BuildingAPI {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AssignmentBuildingService assignmentBuildingService;
+//    @Autowired
+//    private AssignmentBuildingService assignmentBuildingService;
 
     @PostMapping
     public String addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
@@ -46,6 +46,6 @@ public class BuildingAPI {
 
     @PutMapping
     public void updateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
-        assignmentBuildingService.updateAssignedBuilding(assignmentBuildingDTO);
+        buildingService.assignBuilding(assignmentBuildingDTO);
     }
 }

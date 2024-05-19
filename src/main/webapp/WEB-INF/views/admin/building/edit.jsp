@@ -2,6 +2,7 @@
 <%@include file="/common/taglib.jsp" %>
 <c:url var="buildingEditUrl" value="/admin/building-edit"/>
 <c:url var="buildingListUrl" value="/admin/building-list"/>
+<c:url var="buildingImage" value="/admin/image/default.png"/>
 <html>
 <head>
     <title>Thông tin tòa nhà</title>
@@ -184,9 +185,19 @@
                         </div>
                         <%--Hình ảnh--%>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="image">Hình đại diện</label>
-                            <div class="col-sm-10">
-                                <input multiple type="file" id="image" name="image" class="form-control">
+                            <label class="col-sm-3 no-padding-right">Hình đại diện</label>
+                            <input class="col-sm-3 no-padding-right" type="file" id="uploadImage"/>
+                            <div class="col-sm-9">
+                                <%--Có ảnh--%>
+                                <c:if test="${not empty buildingEdit.image}">
+                                    <c:set var="imagePath" value="/repository${buildingEdit.image}"/>
+                                    <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="margin-top: 50px" alt=""/>
+                                </c:if>
+
+                                <%--Không có ảnh--%>
+                                <c:if test="${empty buildingEdit.image}">
+                                    <img src="${buildingImage}" id="viewImage" width="300px" height="300px" alt=""/>
+                                </c:if>
                             </div>
                         </div>
 
@@ -228,15 +239,44 @@
 </div><!-- /.main-content -->
 
 <script>
+    var imageBase64 = '';
+    var imageName = '';
+
+    function openImage(input, imageView) {
+        if (input.files && input.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' +imageView).attr('src', reader.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $('#uploadImage').change(function (event) {
+        let reader = new FileReader();
+        let file = $(this)[0].files[0];
+        reader.onload = function(e){
+            imageBase64 = e.target.result;
+            imageName = file.name;
+        };
+        reader.readAsDataURL(file);
+        openImage(this, "viewImage");
+    });
+
     function btnAddOrUpdateBuilding(buildingId) {
         var data = {};
         var typeCode = [];
         var formData = $('#form-edit').serializeArray();
         $.each(formData, function (i, it) {
-            if (it.name != 'typeCode') {
+            if (it.name != 'typeCode' && '' !== it.value && null != it.value) {
                 data["" + it.name + ""] = it.value;
             } else {
                 typeCode.push(it.value);
+            }
+
+            if ('' !== imageBase64) {
+                data['imageBase64'] = imageBase64;
+                data['imageName'] = imageName;
             }
         });
         data['typeCode'] = typeCode;

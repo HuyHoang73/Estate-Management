@@ -39,12 +39,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	@Override
 	public int countTotalItem() {
 		String sql = buildQueryFilter();
-		Query query = entityManager.createNativeQuery(sql.toString());
+		Query query = entityManager.createNativeQuery(sql);
 		return query.getResultList().size();
 	}
 
 	private String buildQueryFilter() {
-		String sql = "SELECT * FROM user u WHERE u.status = 1";
-		return sql;
+        return "SELECT * FROM user u WHERE u.status = 1";
 	}
 }

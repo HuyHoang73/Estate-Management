@@ -9,13 +9,17 @@ import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.UserService;
+import com.javaweb.utils.DisplayTagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController(value="buildingControllerOfAdmin")
@@ -31,13 +35,17 @@ public class BuildingController {
     private BuildingConverter buildingConverter;
 
     @GetMapping(value = "/admin/building-list")
-    public ModelAndView buildingList(@ModelAttribute("modelSearch")BuildingSearchRequest buildingSearchRequest){
+    public ModelAndView buildingList(@ModelAttribute("modelSearch")BuildingSearchRequest buildingSearchRequest, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/list");
         mav.addObject("staffs", userService.getStaffs());
         mav.addObject("districtCode", districtCode.district());
         mav.addObject("typeCode", typeCode.getTypeCode());
-        List<BuildingSearchResponse> result = buildingService.findAll(buildingSearchRequest);
-        mav.addObject("buildingList", result);
+        DisplayTagUtils.of(request, buildingSearchRequest);
+        List<BuildingSearchResponse> result = buildingService.findAll(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
+        buildingSearchResponse.setListResult(result);
+        buildingSearchResponse.setTotalItems(buildingService.countTotalItems());
+        mav.addObject("buildingList", buildingSearchResponse);
         return mav;
     }
 

@@ -1,6 +1,7 @@
 package com.javaweb.converter;
 
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.enums.districtCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -43,6 +44,7 @@ public class BuildingConverter {
         String[] typeCode = buildingEntity.getType().split(",");
         List<String> typeCodes = new ArrayList<>(Arrays.asList(typeCode));
         building.setTypeCode(typeCodes);
+        building.setImage(buildingEntity.getAvatar());
         return building;
     }
 
@@ -55,6 +57,20 @@ public class BuildingConverter {
         BuildingEntity buildingEntity =  modelMapper.map(buildingDTO, BuildingEntity.class);
         String typeCode = buildingDTO.getTypeCode().stream().collect(Collectors.joining(","));
         buildingEntity.setType(typeCode);
+        String rentAreaString = buildingDTO.getRentArea();
+        if (rentAreaString != null && !rentAreaString.isEmpty()) {
+            String[] convertString = rentAreaString.split(",");
+            if(convertString.length > 0) {
+                List<RentAreaEntity> listRentAreas = new ArrayList<>();
+                for(String str : convertString){
+                    RentAreaEntity rentAreaEntity = new RentAreaEntity();
+                    rentAreaEntity.setValue(Long.parseLong(str.trim()));
+                    rentAreaEntity.setBuildingRentArea(buildingEntity);
+                    listRentAreas.add(rentAreaEntity);
+                }
+                buildingEntity.setRentAreaEntities(listRentAreas);
+            }
+        }
         return buildingEntity;
     }
 }

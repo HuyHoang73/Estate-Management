@@ -43,65 +43,11 @@ public class BuildingDTO extends AbstractDTO{
 
     private Map<String,String> buildingDTOs = new HashMap<>();
 
-    public Map<String, String> getBuildingDTOs() {
-        return buildingDTOs;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setBuildingDTOs(Map<String, String> buildingDTOs) {
-        this.buildingDTOs = buildingDTOs;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public String getStructure() {
-        return structure;
-    }
-
-
-    public void setStructure(String structure) {
-        this.structure = structure;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getImageBase64() {
         if (imageBase64 != null) {
             return imageBase64.split(",")[1];
         }
         return null;
     }
-
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
 
 }

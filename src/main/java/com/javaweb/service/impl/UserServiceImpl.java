@@ -91,7 +91,7 @@ public class UserServiceImpl implements com.javaweb.service.UserService {
     @Override
     public Map<Long, String> getStaffsAssigned(BuildingEntity buildingEntity) {
         Map<Long, String> staffs = new HashMap<>();
-        List<UserEntity> userEntities = userRepository.findByStatusAndAssignmentBuildingEntities_BuildingAssignAndRoles_Code(1, buildingEntity, "STAFF");
+        List<UserEntity> userEntities = userRepository.findByStatusAndBuildingAssignAndRoles_Code(1, buildingEntity, "STAFF");
         for (UserEntity item : userEntities) {
             staffs.put(item.getId(), item.getFullName());
         }

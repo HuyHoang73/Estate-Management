@@ -400,7 +400,7 @@
     $('#btnDeleteBuildings').click(function (e) {
         e.preventDefault();
         let data = {};
-        data['buildingIds'] = $('#buildingList').find('tbody input[type=checkbox]:checked').map(function () {
+        data['buildingIds'] = $('#tableList').find('tbody input[type=checkbox]:checked').map(function () {
             return $(this).val();
         }).get();
         deleteBuilding(data);

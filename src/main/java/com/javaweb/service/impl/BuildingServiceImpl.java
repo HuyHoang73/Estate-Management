@@ -99,7 +99,6 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
-//        userRepository.deleteByBuildingAssign_IdIn(ids);
         List<BuildingEntity> listBuilding = buildingRepository.findAllByIdIn(ids);
         listBuilding.forEach(itemBuilding -> {
             itemBuilding.getStaffs().forEach(userItem -> {

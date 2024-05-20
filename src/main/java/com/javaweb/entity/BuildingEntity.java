@@ -116,5 +116,4 @@ public class BuildingEntity extends BaseEntity{
             joinColumns = @JoinColumn(name = "buildingid", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false))
     private List<UserEntity> staffs = new ArrayList<>();
-
 }

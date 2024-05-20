@@ -2,7 +2,6 @@ package com.javaweb.service.impl;
 
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
@@ -10,9 +9,7 @@ import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
-//import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
-import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.UserService;
@@ -37,12 +34,6 @@ public class BuildingServiceImpl implements BuildingService {
     private BuildingRepository buildingRepository;
 
     @Autowired
-    private RentAreaRepository rentAreaRepository;
-
-//    @Autowired
-//    private AssignmentBuildingRepository assignmentBuildingRepository;
-
-    @Autowired
     private BuildingConverter buildingConverter;
 
     @Autowired
@@ -56,8 +47,10 @@ public class BuildingServiceImpl implements BuildingService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
     private UploadFileUtils uploadFileUtils;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -100,13 +93,6 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
-        List<BuildingEntity> listBuilding = buildingRepository.findAllByIdIn(ids);
-        listBuilding.forEach(itemBuilding -> {
-            itemBuilding.getStaffs().forEach(userItem -> {
-                userItem.getBuildingAssign().remove(itemBuilding);
-            });
-            itemBuilding.getStaffs().clear();
-        });
         buildingRepository.deleteAllByIdIn(ids);
     }
 

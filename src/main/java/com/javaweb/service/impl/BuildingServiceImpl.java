@@ -91,6 +91,7 @@ public class BuildingServiceImpl implements BuildingService {
             BuildingEntity foundBuilding = buildingRepository.findById(buildingId)
                     .orElseThrow(() -> new NotFoundException("Building not found!"));
             buildingEntity.setAvatar(foundBuilding.getAvatar());
+            buildingEntity.setStaffs(buildingRepository.findById(buildingId).get().getStaffs());
         }
         saveThumbnail(buildingDTO, buildingEntity);
         buildingRepository.save(buildingEntity);

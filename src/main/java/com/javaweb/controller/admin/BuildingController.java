@@ -7,6 +7,7 @@ import com.javaweb.enums.typeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.UserService;
 import com.javaweb.utils.DisplayTagUtils;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController(value="buildingControllerOfAdmin")
@@ -41,7 +43,14 @@ public class BuildingController {
         mav.addObject("districtCode", districtCode.district());
         mav.addObject("typeCode", typeCode.getTypeCode());
         DisplayTagUtils.of(request, buildingSearchRequest);
-        List<BuildingSearchResponse> result = buildingService.findAll(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        List<BuildingSearchResponse> result = new ArrayList<>();
+        if(SecurityUtils.getAuthorities().contains("ROLE_ADMIN")){
+            result = buildingService.findAll(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        } else {
+            Long id = SecurityUtils.getPrincipal().getId();
+            buildingSearchRequest.setStaffId(id);
+            result = buildingService.findAll(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        }
         BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
         buildingSearchResponse.setListResult(result);
         buildingSearchResponse.setTotalItems(buildingService.countTotalItems());

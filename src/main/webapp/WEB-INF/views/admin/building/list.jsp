@@ -21,25 +21,26 @@
                             <h4 class="widget-title">Tìm kiếm</h4>
 
                             <span class="widget-toolbar">
-										<a href="#" data-action="reload">
-											<i class="ace-icon fa fa-refresh"></i>
-										</a>
+                                <a href="#" data-action="reload">
+                                    <i class="ace-icon fa fa-refresh"></i>
+                                </a>
 
-										<a href="#" data-action="collapse">
-											<i class="ace-icon fa fa-chevron-up"></i>
-										</a>
-									</span>
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </span>
                         </div>
 
                         <div class="widget-body">
                             <div class="widget-main">
-                                <form:form action="/admin/building-list" modelAttribute="modelSearch" method="GET" id="listForm">
+                                <form:form action="/admin/building-list" modelAttribute="modelSearch" method="GET"
+                                           id="listForm">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="col-xs-6">
                                                 <form:label path="name">Tên tòa nhà</form:label>
                                                 <div class="form-group">
-<%--                                                    <input type="text" class="form-control" name="name" id="name" value="${modelSearch.name}"/>--%>
+                                                        <%--<input type="text" class="form-control" name="name" id="name" value="${modelSearch.name}"/>--%>
                                                     <form:input path="name" class="form-control"/>
                                                 </div>
                                             </div>
@@ -103,7 +104,8 @@
                                             <div class="col-xs-3">
                                                 <form:label path="rentPriceFrom">Giá thuê từ</form:label>
                                                 <div class="form-group">
-                                                    <form:input path="rentPriceFrom" class="form-control" type="number"/>
+                                                    <form:input path="rentPriceFrom" class="form-control"
+                                                                type="number"/>
                                                 </div>
                                             </div>
                                             <div class="col-xs-3">
@@ -124,15 +126,17 @@
                                                     <form:input path="managerPhone" class="form-control"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <form:label path="staffId">Chọn nhân viên</form:label>
-                                                <div class="form-group">
-                                                    <form:select path="staffId" class="form-control">
-                                                        <form:option value="" label="--Chọn nhân viên--"/>
-                                                        <form:options items="${staffs}"/>
-                                                    </form:select>
+                                            <security:authorize access="hasRole('MANAGER')">
+                                                <div class="col-xs-4">
+                                                    <form:label path="staffId">Chọn nhân viên</form:label>
+                                                    <div class="form-group">
+                                                        <form:select path="staffId" class="form-control">
+                                                            <form:option value="" label="--Chọn nhân viên--"/>
+                                                            <form:options items="${staffs}"/>
+                                                        </form:select>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </security:authorize>
                                         </div>
                                         <div class="col-xs-12">
                                             <div class="col-xs-6">
@@ -151,31 +155,32 @@
                                         </div>
                                     </div>
                                 </form:form>
-
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right">
-                        <a href="/admin/building-edit" title="Thêm tòa nhà" class="btn btn-white btn-success">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-building-add" viewBox="0 0 16 16">
-                                <path
-                                        d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0"/>
-                                <path
-                                        d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
-                                <path
-                                        d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                            </svg>
-                        </a>
-                        <button title="Xóa tòa nhà" class="btn btn-white btn-danger" id="btnDeleteBuildings">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-building-dash" viewBox="0 0 16 16">
-                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"/>
-                                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
-                                <path d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                            </svg>
-                        </button>
-                    </div>
+                    <security:authorize access="hasRole('MANAGER')">
+                        <div class="pull-right">
+                            <a href="/admin/building-edit" title="Thêm tòa nhà" class="btn btn-white btn-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-building-add" viewBox="0 0 16 16">
+                                    <path
+                                            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0"/>
+                                    <path
+                                            d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+                                    <path
+                                            d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                                </svg>
+                            </a>
+                            <button title="Xóa tòa nhà" class="btn btn-white btn-danger" id="btnDeleteBuildings">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-building-dash" viewBox="0 0 16 16">
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"/>
+                                    <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+                                    <path d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </security:authorize>
                 </div><!-- /.col -->
             </div>
 
@@ -213,21 +218,27 @@
                         <display:column headerClass="text-left" property="brokerageFee" title="Phí MG"/>
                         <display:column headerClass="col-actions" title="Thao tác">
                             <div class="hidden-sm hidden-xs btn-group">
-                                <button class="btn btn-xs btn-success" title="Giao tòa nhà"
-                                        onclick="assignmentBuilding(${tableList.id})">
-                                    <i class="ace-icon glyphicon glyphicon-align-justify bigger-120"></i>
-                                </button>
+                                <security:authorize access="hasRole('MANAGER')">
+                                    <button class="btn btn-xs btn-success" title="Giao tòa nhà"
+                                            onclick="assignmentBuilding(${tableList.id})">
+                                        <i class="ace-icon glyphicon glyphicon-align-justify bigger-120"></i>
+                                    </button>
+                                </security:authorize>
 
-                                <a href="/admin/building-edit-${tableList.id}" class="btn btn-xs btn-primary" title="Sửa tòa nhà">
+                                <a href="/admin/building-edit-${tableList.id}" class="btn btn-xs btn-primary"
+                                   title="Sửa tòa nhà">
                                     <i class="ace-icon glyphicon glyphicon-edit bigger-120"></i>
                                 </a>
 
-                                <button class="btn btn-xs btn-danger" title="Xóa tòa nhà"
-                                        onclick="btnDeleteBuilding(${tableList.id})">
-                                    <i class="ace-icon glyphicon glyphicon-trash bigger-120"></i>
-                                </button>
+                                <security:authorize access="hasRole('MANAGER')">
+                                    <button class="btn btn-xs btn-danger" title="Xóa tòa nhà"
+                                            onclick="btnDeleteBuilding(${tableList.id})">
+                                        <i class="ace-icon glyphicon glyphicon-trash bigger-120"></i>
+                                    </button>
+                                </security:authorize>
                             </div>
                         </display:column>
+
                     </display:table>
                 </div>
             </div>
@@ -246,26 +257,26 @@
             <div class="modal-body">
                 <table id="staffList" class="table table-striped table-bordered table-hover">
                     <thead>
-                        <tr>
-                            <th class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </th>
-                            <th class="center">Tên nhân viên</th>
-                        </tr>
+                    <tr>
+                        <th class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th class="center">Tên nhân viên</th>
+                    </tr>
                     </thead>
                     <tbody>
-<%--                         <tr>--%>
-<%--                             <td class="center">--%>
-<%--                                 <label class="pos-rel">--%>
-<%--                                     <input type="checkbox" class="ace" id="checkbox_1" value="1" checked="">--%>
-<%--                                     <span class="lbl"></span>--%>
-<%--                                 </label>--%>
-<%--                             </td>--%>
-<%--                             <td class="center">Nguyễn Văn A</td>--%>
-<%--                         </tr>--%>
+                    <%--                         <tr>--%>
+                    <%--                             <td class="center">--%>
+                    <%--                                 <label class="pos-rel">--%>
+                    <%--                                     <input type="checkbox" class="ace" id="checkbox_1" value="1" checked="">--%>
+                    <%--                                     <span class="lbl"></span>--%>
+                    <%--                                 </label>--%>
+                    <%--                             </td>--%>
+                    <%--                             <td class="center">Nguyễn Văn A</td>--%>
+                    <%--                         </tr>--%>
                     </tbody>
                 </table>
                 <input type="hidden" id="buildingId" name="buildingId"/>
@@ -292,9 +303,9 @@
             data: JSON.stringify,
             contentType: "application/json; charset-UTF8",
             dataType: "json",
-            success:(response) => {
+            success: (response) => {
                 let row = '';
-                $.each(response.data, (index, item)=>{
+                $.each(response.data, (index, item) => {
                     row += '<tr>';
                     row += '<td class="center"> <label class="pos-rel"><input type="checkbox" class="ace" id="checkbox_' + item.staffId + '" value="' + item.staffId + '" ' + item.checked + '><span class="lbl"></span></label></td>';
                     row += '<td class="center">' + item.fullName + '</td>'
@@ -343,6 +354,7 @@
     })
 
     <%--Xóa 1 tòa nhà--%>
+
     function btnDeleteBuilding(buildingId) {
         let data = {};
         data['buildingIds'] = buildingId;
@@ -367,7 +379,7 @@
         })
     }
 
-    $('btnSearchBuilding').click(function (e){
+    $('btnSearchBuilding').click(function (e) {
         e.preventDefault();
         $('#listForm').submit();
     })

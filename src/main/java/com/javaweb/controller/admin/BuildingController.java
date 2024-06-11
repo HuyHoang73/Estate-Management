@@ -44,7 +44,7 @@ public class BuildingController {
         mav.addObject("typeCode", typeCode.getTypeCode());
         DisplayTagUtils.of(request, buildingSearchRequest);
         List<BuildingSearchResponse> result = new ArrayList<>();
-        if(SecurityUtils.getAuthorities().contains("ROLE_ADMIN")){
+        if(SecurityUtils.getAuthorities().contains("ROLE_MANAGER")){
             result = buildingService.findAll(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
         } else {
             Long id = SecurityUtils.getPrincipal().getId();

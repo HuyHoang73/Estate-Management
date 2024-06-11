@@ -203,28 +203,29 @@
 
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-5 col-md-7">
-                                <c:if test="${empty buildingEdit.id}">
-                                    <button class="btn btn-primary" type="button" onclick="btnAddOrUpdateBuilding(${buildingEdit.id})">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                        Thêm tòa nhà
-                                    </button>
-                                </c:if>
-                                <c:if test="${not empty buildingEdit.id}">
-                                    <button class="btn btn-primary" type="button" onclick="btnAddOrUpdateBuilding(${buildingEdit.id})">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                        Sửa tòa nhà
-                                    </button>
-                                </c:if>
+                                <security:authorize access="hasRole('MANAGER')">
+                                    <c:if test="${empty buildingEdit.id}">
+                                        <button class="btn btn-primary" type="button" onclick="btnAddOrUpdateBuilding(${buildingEdit.id})">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            Thêm tòa nhà
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${not empty buildingEdit.id}">
+                                        <button class="btn btn-primary" type="button" onclick="btnAddOrUpdateBuilding(${buildingEdit.id})">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            Sửa tòa nhà
+                                        </button>
+                                    </c:if>
+                                </security:authorize>
                                 &nbsp; &nbsp; &nbsp;
                                 <a href="${buildingListUrl}">
                                     <button type="button" class="btn btn-danger">
                                         <i class="ace-icon fa fa-undo bigger-110"></i>
-                                        Hủy thao tác
+                                        Quay lại
                                     </button>
                                 </a>
                             </div>
                         </div>
-
                     </form:form>
                 </div><!-- /.col -->
             </div>

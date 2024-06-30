@@ -2,8 +2,8 @@ package com.javaweb.controller.admin;
 
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.enums.districtCode;
-import com.javaweb.enums.typeCode;
+import com.javaweb.enums.DistrictCode;
+import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class BuildingController {
     public ModelAndView buildingList(@ModelAttribute("modelSearch")BuildingSearchRequest buildingSearchRequest, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/list");
         mav.addObject("staffs", userService.getStaffs());
-        mav.addObject("districtCode", districtCode.district());
-        mav.addObject("typeCode", typeCode.getTypeCode());
+        mav.addObject("districtCode", DistrictCode.district());
+        mav.addObject("typeCode", TypeCode.getTypeCode());
         DisplayTagUtils.of(request, buildingSearchRequest);
         List<BuildingSearchResponse> result = new ArrayList<>();
         if(SecurityUtils.getAuthorities().contains("ROLE_MANAGER")){
@@ -66,8 +65,8 @@ public class BuildingController {
     @GetMapping(value = "/admin/building-edit")
     public ModelAndView buildingEdit(@ModelAttribute("buildingEdit")BuildingDTO buildingDTO){
         ModelAndView mav = new ModelAndView("admin/building/edit");
-        mav.addObject("districtCode", districtCode.district());
-        mav.addObject("typeCode", typeCode.getTypeCode());
+        mav.addObject("districtCode", DistrictCode.district());
+        mav.addObject("typeCode", TypeCode.getTypeCode());
         return mav;
     }
 
@@ -79,8 +78,8 @@ public class BuildingController {
     @GetMapping(value = "/admin/building-edit-{id}")
     public ModelAndView buildingEdit(@PathVariable Long id){
         ModelAndView mav = new ModelAndView("admin/building/edit");
-        mav.addObject("districtCode", districtCode.district());
-        mav.addObject("typeCode", typeCode.getTypeCode());
+        mav.addObject("districtCode", DistrictCode.district());
+        mav.addObject("typeCode", TypeCode.getTypeCode());
         BuildingEntity buildingEntity = buildingService.findById(id);
         BuildingDTO buildingDTO = buildingConverter.fromEntityToDTO(buildingEntity);
         mav.addObject("buildingEdit", buildingDTO);

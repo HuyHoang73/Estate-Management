@@ -66,8 +66,7 @@
 						</div>
 						<div class="nav-item p-2">
 							<a href='<c:url value='/lien-he'/>'>
-								<%--<span>Liên hệ</span>--%>
-									<span style="color: var(--primary-color);">Liên hệ</span>
+								<span style="color: var(--primary-color);">Liên hệ</span>
 							</a>
 						</div>
 					</div>

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public enum districtCode {
+public enum DistrictCode {
     QUAN_1("Quận 1"),
     QUAN_2("Quận 2"),
     QUAN_3("Quận 3"),
@@ -16,20 +16,20 @@ public enum districtCode {
 
     private final String districtName;
 
-    districtCode(String districtName) {
+    DistrictCode(String districtName) {
         this.districtName = districtName;
     }
 
     public static Map<String, String> district(){
         Map<String, String> listDistrict = new HashMap<>();
-        for(districtCode item : districtCode.values()){
+        for(DistrictCode item : DistrictCode.values()){
             listDistrict.put(item.toString(), item.getDistrictName());
         }
         return listDistrict;
     }
 
     public static String getDistrictNameByCode(String code) {
-        for (districtCode district : districtCode.values()) {
+        for (DistrictCode district : DistrictCode.values()) {
             if (district.name().equals(code)) {
                 return district.getDistrictName();
             }

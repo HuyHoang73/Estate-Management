@@ -1,6 +1,7 @@
 package com.javaweb.service;
 
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.CustomerEntity;
 import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.exception.MyException;
@@ -27,5 +28,6 @@ public interface UserService {
     int countTotalItems();
     Map<Long, String> getStaffs();
     Map<Long, String> getStaffsAssigned(BuildingEntity buildingEntity);
+    Map<Long, String> getStaffsAssignedCustomer(CustomerEntity customerEntity);
     List<StaffResponseDTO> getStaffResponseDTOS(Map<Long, String> listStaffs, Map<Long, String> listStaffAssigned);
 }

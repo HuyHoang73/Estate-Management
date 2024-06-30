@@ -79,7 +79,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Transactional
     public void createOrUpdateBuilding(BuildingDTO buildingDTO) {
         Long buildingId = buildingDTO.getId();
-        BuildingEntity buildingEntity = buildingConverter.fromDTOtoEntityWithoutRentArea(buildingDTO);
+        BuildingEntity buildingEntity = buildingConverter.fromDTOtoEntity(buildingDTO);
         if (buildingId != null) { // update
             BuildingEntity foundBuilding = buildingRepository.findById(buildingId)
                     .orElseThrow(() -> new NotFoundException("Building not found!"));

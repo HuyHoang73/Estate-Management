@@ -1,5 +1,6 @@
-package com.javaweb.model.dto;
+package com.javaweb.model.response;
 
+import com.javaweb.model.dto.AbstractDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,12 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO extends AbstractDTO{
+public class CustomerSearchResponse extends AbstractDTO {
     private String fullname;
-    private Long staffId;
     private String customerPhone;
     private String email;
     private String demand;
     private String status;
-    private String companyName;
 }

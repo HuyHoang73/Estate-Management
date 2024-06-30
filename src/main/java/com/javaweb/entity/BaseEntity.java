@@ -23,11 +23,11 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "createddate")
+    @Column(name = "createddate", updatable = false)
     @CreatedDate
     private Date createdDate;
 
-    @Column(name = "createdby")
+    @Column(name = "createdby", updatable = false)
     @CreatedBy
     private String createdBy;
 
@@ -38,4 +38,10 @@ public class BaseEntity implements Serializable {
     @Column(name = "modifiedby")
     @LastModifiedBy
     private String modifiedBy;
+
+    @PrePersist
+    protected void onCreate() {
+        this.modifiedDate = null;
+        this.modifiedBy = null;
+    }
 }

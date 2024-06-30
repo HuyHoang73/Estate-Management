@@ -3,6 +3,7 @@ package com.javaweb.service.impl;
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.converter.UserConverter;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.CustomerEntity;
 import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.entity.RoleEntity;
@@ -92,6 +93,16 @@ public class UserServiceImpl implements com.javaweb.service.UserService {
     public Map<Long, String> getStaffsAssigned(BuildingEntity buildingEntity) {
         Map<Long, String> staffs = new HashMap<>();
         List<UserEntity> userEntities = userRepository.findByStatusAndBuildingAssignAndRoles_Code(1, buildingEntity, "STAFF");
+        for (UserEntity item : userEntities) {
+            staffs.put(item.getId(), item.getFullName());
+        }
+        return staffs;
+    }
+
+    @Override
+    public Map<Long, String> getStaffsAssignedCustomer(CustomerEntity customerEntity) {
+        Map<Long, String> staffs = new HashMap<>();
+        List<UserEntity> userEntities = userRepository.findByStatusAndCustomersAndRoles_Code(1, customerEntity, "STAFF");
         for (UserEntity item : userEntities) {
             staffs.put(item.getId(), item.getFullName());
         }

@@ -116,18 +116,19 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form>
+                    <form id="form-edit" action="">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Họ và tên">
+                                <input type="text" class="form-control" placeholder="Họ và tên" name="fullname">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Email">
+                                <input type="text" class="form-control" placeholder="Email" name="email">
                             </div>
                         </div>
-                        <input type="text" class="form-control mt-3" placeholder="Số điện thoại">
-                        <input type="text" class="form-control mt-3" placeholder="Nội dung">
-                        <button class="btn btn-primary px-4 mt-3">
+                        <input type="text" class="form-control mt-3" placeholder="Số điện thoại" name="customerPhone">
+                        <input type="text" class="form-control mt-3" placeholder="Nội dung" name="demand">
+                        <button class="btn btn-primary" type="button" onclick="btnAddOrUpdateCustomer()">
+                            <i class="ace-icon fa fa-check bigger-110"></i>
                             Gửi liên hệ
                         </button>
                     </form>
@@ -158,7 +159,7 @@
                             </div>
                             <div class="col-12 col-md-4 text-center">
                                 <div class="icon-footer">
-                                    <img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/place_phone.png?1676257083798 alt="">
+                                    <img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/place_phone.png?1676257083798" alt="" />
                                 </div>
                                 <div class="content-center-footer">
                                     <p class="mb-1 mt-3">Hotline</p>
@@ -235,5 +236,41 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script>
+    function btnAddOrUpdateCustomer() {
+        let data = {};
+        let formData = $('#form-edit').serializeArray();
+        $.each(formData, function (i, it) {
+            data["" + it.name + ""] = it.value;
+        });
+        console.log(data);
+        data['status'] = "Chưa xử lý";
+        if("" === data['fullname']) {
+            alert("Bắt buộc phải nhập tên");
+        } else if("" === data['customerPhone']){
+            alert("Bắt buộc phải nhập số điện thoại");
+        }  else {
+            btnAddOrUpdate(data);
+        }
+    }
+
+    function btnAddOrUpdate(data) {
+        $.ajax({
+            type: "POST",
+            url: "/api/customers",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset-UTF8",
+            dataType: "text",
+            success: (response) => {
+                alert(response);
+            },
+            error: function (response) {
+                console.log("failed");
+                console.log(response);
+            }
+        })
+    }
+</script>
+
 </body>
 </html>

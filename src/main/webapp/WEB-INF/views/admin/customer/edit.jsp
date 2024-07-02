@@ -27,9 +27,9 @@
                         </div>
                         <%--Số điện thoại--%>
                         <div class="form-group">
-                            <form:label class="col-sm-2 control-label no-padding-right" path="customerPhone">Số điện thoại</form:label>
+                            <form:label class="col-sm-2 control-label no-padding-right" path="phone">Số điện thoại</form:label>
                             <div class="col-sm-10">
-                                <form:input path="customerPhone" placeholder="Số điện thoại" class="form-control"/>
+                                <form:input path="phone" placeholder="Số điện thoại" class="form-control"/>
                             </div>
                         </div>
                         <%--Email--%>
@@ -199,7 +199,7 @@
         console.log(data);
         if("" === data['fullname']) {
             alert("Bắt buộc phải nhập tên");
-        } else if("" === data['customerPhone']){
+        } else if("" === data['phone']){
             alert("Bắt buộc phải nhập số điện thoại");
         } else if("" === data['status']){
             alert("Bắt buộc phải có tình trang xử lý");

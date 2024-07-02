@@ -13,7 +13,7 @@ import lombok.Setter;
 public class CustomerSearchRequest extends AbstractDTO {
     private String fullname;
     private Long staffId;
-    private String customerPhone;
+    private String phone;
     private String email;
     private String status;
 }

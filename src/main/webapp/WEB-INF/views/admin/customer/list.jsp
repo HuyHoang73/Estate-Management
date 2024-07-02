@@ -54,9 +54,9 @@
                                             </div>
                                             <%--SĐT khách hàng--%>
                                             <div class="col-xs-4">
-                                                <form:label path="customerPhone">Số điện thoại</form:label>
+                                                <form:label path="phone">Số điện thoại</form:label>
                                                 <div class="form-group">
-                                                    <form:input path="customerPhone" class="form-control"/>
+                                                    <form:input path="phone" class="form-control"/>
                                                 </div>
                                             </div>
                                             <%--Tình trạng--%>
@@ -135,7 +135,7 @@
                         <display:column headerClass="text-left" property="createdDate" title="Ngày"/>
                         <display:column headerClass="text-left" property="fullname" title="Họ và tên"/>
                         <display:column headerClass="text-left" property="email" title="Email"/>
-                        <display:column headerClass="text-left" property="customerPhone" title="Số điện thoại"/>
+                        <display:column headerClass="text-left" property="phone" title="Số điện thoại"/>
                         <display:column headerClass="text-left" property="demand" title="Yêu cầu"/>
                         <display:column headerClass="text-left" property="createdBy" title="Người thêm"/>
                         <display:column headerClass="text-left" property="createdDate" title="Ngày thêm"/>

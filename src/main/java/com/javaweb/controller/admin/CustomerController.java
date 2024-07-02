@@ -114,9 +114,7 @@ public class CustomerController {
             mav.addObject("cskhTransactions", cskhTransaction);
             mav.addObject("ddxTransactions", ddxTransaction);
         } else {
-
             throw new AccessDeniedException("Bạn không có quyền truy cập thông tin khách hàng này!");
-
         }
         return mav;
     }

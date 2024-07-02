@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CustomerSearchResponse extends AbstractDTO {
     private String fullname;
-    private String customerPhone;
+    private String phone;
     private String email;
     private String demand;
     private String status;

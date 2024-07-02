@@ -42,4 +42,9 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return roleTerm;
 	}
+
+	@Override
+	public RoleEntity findByCode(String code) {
+		return  roleRepository.findOneByCode(code);
+	}
 }

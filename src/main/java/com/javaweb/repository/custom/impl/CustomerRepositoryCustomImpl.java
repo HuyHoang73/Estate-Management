@@ -80,6 +80,6 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
     }
 
     private String buildQueryFilter() {
-        return "SELECT c.* FROM customer c ";
+        return "SELECT c.* FROM customer c where is_active = 1";
     }
 }

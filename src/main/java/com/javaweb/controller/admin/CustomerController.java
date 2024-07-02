@@ -1,8 +1,11 @@
 package com.javaweb.controller.admin;
 
 import com.javaweb.constant.SystemConstant;
+import com.javaweb.converter.UserConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.CustomerEntity;
+import com.javaweb.entity.RoleEntity;
+import com.javaweb.entity.UserEntity;
 import com.javaweb.enums.DistrictCode;
 import com.javaweb.enums.Status;
 import com.javaweb.enums.TransactionType;
@@ -16,12 +19,14 @@ import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.model.response.TransactionResponse;
 import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
+import com.javaweb.service.RoleService;
 import com.javaweb.service.TransactionService;
 import com.javaweb.service.UserService;
 import com.javaweb.utils.DisplayTagUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +43,16 @@ public class CustomerController {
     UserService userService;
 
     @Autowired
+    UserConverter userConverter;
+
+    @Autowired
     CustomerService customerService;
 
     @Autowired
     TransactionService transactionService;
+
+    @Autowired
+    RoleService roleService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -81,16 +92,32 @@ public class CustomerController {
         mav.addObject("statusTransaction", Status.type());
         mav.addObject("typeTransaction", TransactionType.transactionType());
         CustomerEntity customerEntity = customerService.findById(id);
-        CustomerDTO cutomerDTO = modelMapper.map(customerEntity, CustomerDTO.class);
+        List<UserEntity> staffsAsign = customerEntity.getStaffsAssign();
 
-        TransactionResponse cskhTransaction = new TransactionResponse();
-        cskhTransaction.setListResult(transactionService.findAllByCustomerIdAndCode(id, "CSKH"));
-        TransactionResponse ddxTransaction = new TransactionResponse();
-        ddxTransaction.setListResult(transactionService.findAllByCustomerIdAndCode(id, "DDX"));
+        boolean flag = false;
+        for (UserEntity userEntity : staffsAsign) {
+            if (userEntity.getId() == SecurityUtils.getPrincipal().getId()) {
+                flag = true;
+                break;
+            }
+        }
 
-        mav.addObject("customerEdit", cutomerDTO);
-        mav.addObject("cskhTransactions", cskhTransaction);
-        mav.addObject("ddxTransactions", ddxTransaction);
+        if(flag || SecurityUtils.getAuthorities().contains("ROLE_MANAGER")){
+            CustomerDTO cutomerDTO = modelMapper.map(customerEntity, CustomerDTO.class);
+
+            TransactionResponse cskhTransaction = new TransactionResponse();
+            cskhTransaction.setListResult(transactionService.findAllByCustomerIdAndCode(id, "CSKH"));
+            TransactionResponse ddxTransaction = new TransactionResponse();
+            ddxTransaction.setListResult(transactionService.findAllByCustomerIdAndCode(id, "DDX"));
+
+            mav.addObject("customerEdit", cutomerDTO);
+            mav.addObject("cskhTransactions", cskhTransaction);
+            mav.addObject("ddxTransactions", ddxTransaction);
+        } else {
+
+            throw new AccessDeniedException("Bạn không có quyền truy cập thông tin khách hàng này!");
+
+        }
         return mav;
     }
 }
